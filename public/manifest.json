@@ -1,0 +1,14 @@
+{
+  "name": "Current — Daily Finance Tracker",
+  "short_name": "Current",
+  "description": "A deep-sea themed personal finance tracker for logging income, expenses, and budgets.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050B14",
+  "theme_color": "#050B14",
+  "orientation": "portrait",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}
