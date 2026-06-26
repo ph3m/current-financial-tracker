@@ -1,6 +1,6 @@
 "use client";
 
-import { Home, PieChart, Target, Plus } from "lucide-react";
+import { Home, PieChart, Target, Plus, Settings } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { Tab } from "./FinanceApp";
 
@@ -32,26 +32,33 @@ export default function BottomNav({
   activeTab,
   setActiveTab,
   onAdd,
+  onReset,
 }: {
   activeTab: Tab;
   setActiveTab: (t: Tab) => void;
   onAdd: () => void;
+  onReset: () => void;
 }) {
   return (
-    <nav className="absolute inset-x-0 bottom-0 z-30">
-      <button
-        onClick={onAdd}
-        aria-label="Add transaction"
-        className="absolute -top-7 left-1/2 flex h-16 w-16 -translate-x-1/2 items-center justify-center rounded-full bg-accent2 text-abyss shadow-glow ring-4 ring-abyss transition active:scale-95"
-      >
-        <Plus className="h-7 w-7" strokeWidth={2.5} />
-      </button>
-      <div className="border-t border-edge/20 bg-surface/80 px-6 pb-[max(0.6rem,env(safe-area-inset-bottom))] pt-3 backdrop-blur-md">
-        <div className="grid grid-cols-4 items-center">
+    <nav
+      className="absolute inset-x-4 z-30"
+      style={{ bottom: "max(1rem, calc(env(safe-area-inset-bottom) + 0.75rem))" }}
+    >
+      <div className="rounded-full border border-edge/40 bg-surface/85 px-3 py-3 shadow-2xl shadow-black/50 backdrop-blur-md">
+        <div className="grid grid-cols-5 items-center">
           <NavBtn icon={Home} label="Home" active={activeTab === "dashboard"} onClick={() => setActiveTab("dashboard")} />
           <NavBtn icon={PieChart} label="Insights" active={activeTab === "analytics"} onClick={() => setActiveTab("analytics")} />
-          <div />
+          <div className="flex items-center justify-center">
+            <button
+              onClick={onAdd}
+              aria-label="Add transaction"
+              className="flex h-11 w-11 items-center justify-center rounded-full bg-accent2 text-abyss shadow-md shadow-accent2/50 transition active:scale-90"
+            >
+              <Plus className="h-5 w-5" strokeWidth={2.5} />
+            </button>
+          </div>
           <NavBtn icon={Target} label="Budget" active={activeTab === "budget"} onClick={() => setActiveTab("budget")} />
+          <NavBtn icon={Settings} label="Reset" active={false} onClick={onReset} />
         </div>
       </div>
     </nav>

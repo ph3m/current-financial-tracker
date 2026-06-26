@@ -10,6 +10,7 @@ import Analytics from "./Analytics";
 import Budget from "./Budget";
 import BottomNav from "./BottomNav";
 import QuickAddModal from "./QuickAddModal";
+import ResetConfirmModal from "./ResetConfirmModal";
 
 export type Tab = "dashboard" | "analytics" | "budget";
 
@@ -26,6 +27,7 @@ export default function FinanceApp() {
   const [showQuickAdd, setShowQuickAdd] = useState(false);
   const [showAllTx, setShowAllTx] = useState(false);
   const [editingBudget, setEditingBudget] = useState<string | null>(null);
+  const [showResetConfirm, setShowResetConfirm] = useState(false);
 
   // Load any previously saved data once, on mount (client-only — localStorage isn't available during SSR).
   useEffect(() => {
@@ -119,11 +121,26 @@ export default function FinanceApp() {
     setShowQuickAdd(false);
   }
 
+  function handleResetAll() {
+    setTransactions([]);
+    setBudgets(DEFAULT_BUDGETS);
+    setShowAllTx(false);
+    setEditingBudget(null);
+    setActiveTab("dashboard");
+    setShowResetConfirm(false);
+    try {
+      localStorage.removeItem(TX_KEY);
+      localStorage.removeItem(BUDGET_KEY);
+    } catch {
+      // Storage unavailable — in-memory state is already reset, which is what matters.
+    }
+  }
+
   const today = new Date();
 
   return (
-    <div className="flex min-h-screen justify-center bg-abyss">
-      <div className="relative flex min-h-screen w-full max-w-md flex-col overflow-hidden border-x border-edge/20 bg-abyss shadow-2xl">
+    <div className="flex h-screen justify-center bg-abyss" style={{ height: "100dvh" }}>
+      <div className="relative flex h-full w-full max-w-md flex-col overflow-hidden border-x border-edge/20 bg-abyss shadow-2xl">
         {/* Ambient bubbles — signature deep-sea motion */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
           {BUBBLES.map((b, i) => (
@@ -171,9 +188,17 @@ export default function FinanceApp() {
           )}
         </main>
 
-        <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} onAdd={() => setShowQuickAdd(true)} />
+        <BottomNav
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          onAdd={() => setShowQuickAdd(true)}
+          onReset={() => setShowResetConfirm(true)}
+        />
 
         {showQuickAdd && <QuickAddModal onClose={() => setShowQuickAdd(false)} onSave={handleSave} />}
+        {showResetConfirm && (
+          <ResetConfirmModal onClose={() => setShowResetConfirm(false)} onConfirm={handleResetAll} />
+        )}
       </div>
     </div>
   );
