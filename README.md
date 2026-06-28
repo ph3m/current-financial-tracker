@@ -67,7 +67,7 @@ Transactions and budgets are saved to `localStorage` (`components/FinanceApp.tsx
 
 ## Offline support (installable PWA)
 
-This project is a working offline-capable PWA out of the box, via [`@ducanh2912/next-pwa`](https://www.npmjs.com/package/@ducanh2912/next-pwa):
+This project is a working offline-capable PWA out of the box, via [`current pwa`](https://current-financial-tracker.vercel.app):
 
 - `next.config.mjs` wraps the Next config with the plugin, which generates a service worker (`public/sw.js`) at build time.
 - The service worker is **disabled in `next dev`** (so dev reloads aren't fought by caching) and active in production builds (`npm run build && npm run start`, or after deploying).
